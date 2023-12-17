@@ -1,11 +1,18 @@
 {
   "id": "home",
-  "label": "Home",
+  "label": "Homepage",
   "format": "page",
   "repeatable": false,
   "status": true,
   "json": {
     "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

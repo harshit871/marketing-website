@@ -7,11 +7,22 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 type HomeDocumentDataSlicesSlice = never;
 
 /**
- * Content for Home documents
+ * Content for Homepage documents
  */
 interface HomeDocumentData {
   /**
-   * Slice Zone field in *Home*
+   * Title field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Slice Zone field in *Homepage*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -20,7 +31,7 @@ interface HomeDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
-   * Meta Description field in *Home*
+   * Meta Description field in *Homepage*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -31,7 +42,7 @@ interface HomeDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *Home*
+   * Meta Image field in *Homepage*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -42,7 +53,7 @@ interface HomeDocumentData {
   meta_image: prismic.ImageField<never>;
 
   /**
-   * Meta Title field in *Home*
+   * Meta Title field in *Homepage*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -54,7 +65,7 @@ interface HomeDocumentData {
 }
 
 /**
- * Home document from Prismic
+ * Homepage document from Prismic
  *
  * - **API ID**: `home`
  * - **Repeatable**: `false`
