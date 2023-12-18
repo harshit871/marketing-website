@@ -529,71 +529,6 @@ export type TestimonialsSlice = prismic.SharedSlice<
   TestimonialsSliceVariation
 >;
 
-/**
- * Primary content in *TextImageContent → Primary*
- */
-export interface TextImageContentSliceDefaultPrimary {
-  /**
-   * Heading field in *TextImageContent → Primary*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_image_content.primary.heading
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  heading: prismic.TitleField;
-
-  /**
-   * Body field in *TextImageContent → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_image_content.primary.body
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  body: prismic.RichTextField;
-
-  /**
-   * Image field in *TextImageContent → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_image_content.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-}
-
-/**
- * Default variation for TextImageContent Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TextImageContentSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<TextImageContentSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *TextImageContent*
- */
-type TextImageContentSliceVariation = TextImageContentSliceDefault;
-
-/**
- * TextImageContent Shared Slice
- *
- * - **API ID**: `text_image_content`
- * - **Description**: TextImageContent
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TextImageContentSlice = prismic.SharedSlice<
-  "text_image_content",
-  TextImageContentSliceVariation
->;
-
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -629,10 +564,6 @@ declare module "@prismicio/client" {
       TestimonialsSliceDefaultItem,
       TestimonialsSliceVariation,
       TestimonialsSliceDefault,
-      TextImageContentSlice,
-      TextImageContentSliceDefaultPrimary,
-      TextImageContentSliceVariation,
-      TextImageContentSliceDefault,
     };
   }
 }
