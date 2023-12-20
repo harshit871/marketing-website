@@ -4,23 +4,23 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type HomeDocumentDataSlicesSlice =
-  | TextWithSlicesSlice
-  | CallToActionSlice
+type HomepageDocumentDataSlicesSlice =
+  | HeroSlice
   | TestimonialsSlice
   | FeaturesSlice
-  | HeroSlice;
+  | CallToActionSlice
+  | TextWithImageSlice;
 
 /**
  * Content for Homepage documents
  */
-interface HomeDocumentData {
+interface HomepageDocumentData {
   /**
    * Title field in *Homepage*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.title
+   * - **API ID Path**: homepage.title
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -31,19 +31,31 @@ interface HomeDocumentData {
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.slices[]
+   * - **API ID Path**: homepage.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>
+  /**
+   * Meta Title field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: homepage.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
    * Meta Description field in *Homepage*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: home.meta_description
+   * - **API ID Path**: homepage.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
-   */;
+   */
   meta_description: prismic.KeyTextField;
 
   /**
@@ -51,42 +63,35 @@ interface HomeDocumentData {
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.meta_image
+   * - **API ID Path**: homepage.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   meta_image: prismic.ImageField<never>;
-
-  /**
-   * Meta Title field in *Homepage*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: home.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  meta_title: prismic.KeyTextField;
 }
 
 /**
  * Homepage document from Prismic
  *
- * - **API ID**: `home`
+ * - **API ID**: `homepage`
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomeDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
+export type HomepageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<HomepageDocumentData>,
+    "home",
+    Lang
+  >;
 
 type PageDocumentDataSlicesSlice =
   | TestimonialsSlice
-  | TextWithSlicesSlice
   | CallToActionSlice
+  | FeaturesSlice
   | HeroSlice
-  | FeaturesSlice;
+  | TextWithImageSlice;
 
 /**
  * Content for Page documents
@@ -101,7 +106,19 @@ interface PageDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice>
+  /**
+   * Meta Title field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
    * Meta Description field in *Page*
    *
    * - **Field Type**: Text
@@ -109,7 +126,7 @@ interface PageDocumentData {
    * - **API ID Path**: page.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
-   */;
+   */
   meta_description: prismic.KeyTextField;
 
   /**
@@ -122,17 +139,6 @@ interface PageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   meta_image: prismic.ImageField<never>;
-
-  /**
-   * Meta Title field in *Page*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: page.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  meta_title: prismic.KeyTextField;
 }
 
 /**
@@ -303,7 +309,7 @@ export type TestimonialDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
-  | HomeDocument
+  | HomepageDocument
   | PageDocument
   | SettingsDocument
   | TestimonialDocument;
@@ -423,7 +429,7 @@ export interface FeaturesSliceDefaultItem {
   title: prismic.TitleField;
 
   /**
-   * description field in *Features → Items*
+   * Description field in *Features → Items*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -676,13 +682,13 @@ export type TestimonialsSlice = prismic.SharedSlice<
 /**
  * Primary content in *TextWithImage → Primary*
  */
-export interface TextWithSlicesSliceDefaultPrimary {
+export interface TextWithImageSliceDefaultPrimary {
   /**
    * Heading field in *TextWithImage → Primary*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.heading
+   * - **API ID Path**: text_with_image.primary.heading
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   heading: prismic.TitleField;
@@ -692,17 +698,17 @@ export interface TextWithSlicesSliceDefaultPrimary {
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.body
+   * - **API ID Path**: text_with_image.primary.body
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   body: prismic.RichTextField;
 
   /**
-   * image field in *TextWithImage → Primary*
+   * Image field in *TextWithImage → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.image
+   * - **API ID Path**: text_with_image.primary.image
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
@@ -715,22 +721,22 @@ export interface TextWithSlicesSliceDefaultPrimary {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TextWithSlicesSliceDefault = prismic.SharedSliceVariation<
+export type TextWithImageSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<TextWithSlicesSliceDefaultPrimary>,
+  Simplify<TextWithImageSliceDefaultPrimary>,
   never
 >;
 
 /**
  * Primary content in *TextWithImage → Primary*
  */
-export interface TextWithSlicesSliceImageRightPrimary {
+export interface TextWithImageSliceImageRightPrimary {
   /**
    * Heading field in *TextWithImage → Primary*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.heading
+   * - **API ID Path**: text_with_image.primary.heading
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   heading: prismic.TitleField;
@@ -740,17 +746,17 @@ export interface TextWithSlicesSliceImageRightPrimary {
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.body
+   * - **API ID Path**: text_with_image.primary.body
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   body: prismic.RichTextField;
 
   /**
-   * image field in *TextWithImage → Primary*
+   * Image field in *TextWithImage → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_slices.primary.image
+   * - **API ID Path**: text_with_image.primary.image
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
@@ -763,79 +769,69 @@ export interface TextWithSlicesSliceImageRightPrimary {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TextWithSlicesSliceImageRight = prismic.SharedSliceVariation<
+export type TextWithImageSliceImageRight = prismic.SharedSliceVariation<
   "imageRight",
-  Simplify<TextWithSlicesSliceImageRightPrimary>,
+  Simplify<TextWithImageSliceImageRightPrimary>,
   never
 >;
 
 /**
  * Slice variation for *TextWithImage*
  */
-type TextWithSlicesSliceVariation =
-  | TextWithSlicesSliceDefault
-  | TextWithSlicesSliceImageRight;
+type TextWithImageSliceVariation =
+  | TextWithImageSliceDefault
+  | TextWithImageSliceImageRight;
 
 /**
  * TextWithImage Shared Slice
  *
- * - **API ID**: `text_with_slices`
- * - **Description**: TextWithSlices
+ * - **API ID**: `text_with_image`
+ * - **Description**: TextWithImage
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TextWithSlicesSlice = prismic.SharedSlice<
-  "text_with_slices",
-  TextWithSlicesSliceVariation
+export type TextWithImageSlice = prismic.SharedSlice<
+  "text_with_image",
+  TextWithImageSliceVariation
 >;
 
 declare module "@prismicio/client" {
   interface CreateClient {
     (
       repositoryNameOrEndpoint: string,
-      options?: prismic.ClientConfig,
+      options?: prismic.ClientConfig
     ): prismic.Client<AllDocumentTypes>;
   }
 
   namespace Content {
     export type {
-      HomeDocument,
-      HomeDocumentData,
-      HomeDocumentDataSlicesSlice,
+      HomepageDocument,
+      HomepageDocumentData,
+      HomepageDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       SettingsDocument,
       SettingsDocumentData,
-      SettingsDocumentDataNavigationItem,
       TestimonialDocument,
       TestimonialDocumentData,
       AllDocumentTypes,
       CallToActionSlice,
-      CallToActionSliceDefaultPrimary,
       CallToActionSliceVariation,
       CallToActionSliceDefault,
       FeaturesSlice,
-      FeaturesSliceDefaultPrimary,
-      FeaturesSliceDefaultItem,
       FeaturesSliceVariation,
       FeaturesSliceDefault,
       HeroSlice,
-      HeroSliceDefaultPrimary,
-      HeroSliceHorizontalPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
       HeroSliceHorizontal,
       TestimonialsSlice,
-      TestimonialsSliceDefaultPrimary,
-      TestimonialsSliceDefaultItem,
       TestimonialsSliceVariation,
       TestimonialsSliceDefault,
-      TextWithSlicesSlice,
-      TextWithSlicesSliceDefaultPrimary,
-      TextWithSlicesSliceImageRightPrimary,
-      TextWithSlicesSliceVariation,
-      TextWithSlicesSliceDefault,
-      TextWithSlicesSliceImageRight,
+      TextWithImageSlice,
+      TextWithImageSliceVariation,
+      TextWithImageSliceDefault,
+      TextWithImageSliceImageRight,
     };
   }
 }
