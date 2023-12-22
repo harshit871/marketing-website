@@ -39,6 +39,7 @@ const CallToAction = ({ slice }: CallToActionProps): JSX.Element => {
           field={slice.primary.heading}
           components={components}
         />
+        
         <PrismicRichText field={slice.primary.body} components={components} />
         <Button field={slice.primary.button_link}>
           {slice.primary.button_text}
